@@ -1,3 +1,5 @@
+package ru.spbstu
+
 import org.kohsuke.args4j.Argument
 import org.kohsuke.args4j.CmdLineException
 import org.kohsuke.args4j.CmdLineParser
@@ -53,6 +55,7 @@ class TailLauncher{
             }
         }catch (e : IOException){
             println(e.message) // чтобы ничего не бросать в классе , делаем это тут
+            // над функциями которые работают с файлами указаны аннотации
             return
         }
 

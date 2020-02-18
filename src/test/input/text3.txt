@@ -1,0 +1,30 @@
+Типы в Java: примитивные / ссылочные, обёртки примитивных типов, массивы, null
+Класс Object: equals / hashCode / toString
+Видимость в языке Java: public / protected / private / package private
+Сравнение классов, абстрактных классов и интерфейсов
+Статические и не-статические члены класса
+Финальные и не-финальные члены класса
+SAM-интерфейсы и лямбды в Java
+Исключения: контролируемые и нет, Throwable / Exception / RuntimeException / Error
+Перечисления, поля и методы перечислений
+Итераторы и их применение
+Разновидности коллекций: Collection / List / Set / Deque
+Реализации коллекций: List / ArrayList / LinkedList
+Реализации коллекций: Set / HashSet / TreeSet / EnumSet
+Реализации коллекций: Map / HashMap / TreeMap / EnumMap
+Реализации коллекций: Queue / Deque / ArrayDeque / LinkedList
+Шаблонные типы, сырые типы, wildcard типы
+GUI: общая организация приложения
+GUI: model-view-controller
+GUI: механизмы и методы отрисовки
+GUI: обработка событий, механизм слушателей
+GUI: контейнеры и менеджеры размещения
+JVM: вычисление выражений
+JVM: виды вложенных классов
+JVM: ветвления
+JVM: вызовы методов
+JVM: массивы
+Runnable и Thread
+synchronized и volatile
+Object: wait / notify / notifyAll
+Коллекции и Concurrency

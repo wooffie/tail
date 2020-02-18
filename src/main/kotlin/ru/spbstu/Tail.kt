@@ -1,5 +1,10 @@
+package ru.spbstu
+
 import java.io.File
 import java.io.IOException
+
+// я сделал функции internal для тестов , по хорошему как класс , так и функции кроме start должны быть private
+
 
 class Tail(private val outputFileName : String , private val inputFilesNames : List<String>, inputOption : String , private val amount : Int){
 
@@ -11,7 +16,7 @@ class Tail(private val outputFileName : String , private val inputFilesNames : L
      * По умолчанию хранит список списков. В последних в первой ячейке хранится название файла
      * Если название файла оказывается ненужным, то returnData() не возвращает его в списках
      */
-    private class OutputData {
+    internal class OutputData {
         private val data = mutableListOf<List<String>>()
 
         fun add(fileName :String, fileData : List<String>){
@@ -23,6 +28,16 @@ class Tail(private val outputFileName : String , private val inputFilesNames : L
         } else {
             data
         }
+
+        // для тестов
+        override fun equals(other: Any?) =
+            other is OutputData &&
+                    returnData() == other.returnData()
+
+        override fun hashCode(): Int {
+            return data.hashCode()
+        }
+
     }
 
     /** Функция начала работы утилиты. Тут проводятся проверки для того , чтобы понимать откуда и куда мы будем выводить
@@ -47,7 +62,7 @@ class Tail(private val outputFileName : String , private val inputFilesNames : L
      *  Возращает готовые данные для вывода в объекте класса OutputData
      */
     @Throws(IOException::class)
-    private fun readFromFile() : OutputData{
+    internal fun readFromFile() : OutputData {
         val outData = OutputData()
         for(fileName in inputFilesNames){
             if (trueIfLines){
@@ -62,7 +77,7 @@ class Tail(private val outputFileName : String , private val inputFilesNames : L
     /** Функция которая читает командную строку и записывает только необходимую информацию для вывода пользователю
      *  Возращает готовые данные для вывода в объекте класса OutputData
      */
-    private fun readFromCmd() : OutputData{
+    internal fun readFromCmd() : OutputData {
         val outData = OutputData()
         println("Input text:")
         outData.add("",listOf(readLine()!!.takeLast(amount)))
@@ -72,16 +87,21 @@ class Tail(private val outputFileName : String , private val inputFilesNames : L
     /** Функция для записи в файл , принимает необходимые данные и записывает в файл.
      */
     @Throws(IOException::class)
-    private fun writeInFile(outData : OutputData) {
+    internal fun writeInFile(outData : OutputData) {
             File(outputFileName).writeText(outData.returnData().joinToString("\n") { it.joinToString("\n") })
     }
 
 
     /** Фунецкиця вывода в командную строку
      */
-    private fun writeInCmd(outData : OutputData) {
+    internal fun writeInCmd(outData : OutputData) {
         println(outData.returnData().joinToString("\n") { it.joinToString("\n") })
     }
 
 }
 
+fun main(){
+    val path = File("").absolutePath
+    val file = "$path\\test\\input\\text.txt"
+    print(file)
+}

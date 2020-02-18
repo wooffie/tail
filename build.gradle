@@ -20,12 +20,11 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
-
 }
 
 jar {
     manifest {
-        attributes 'Main-Class': 'TailLauncherKt'
+        attributes 'Main-Class': 'ru.spbstu.TailLauncherKt'
     }
     from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
 }
@@ -35,3 +34,4 @@ jar {
 }
 
  */
+
