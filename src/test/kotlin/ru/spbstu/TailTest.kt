@@ -1,8 +1,11 @@
 package ru.spbstu
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.PrintStream
 
 
 class TailTest{
@@ -82,6 +85,31 @@ class TailTest{
                 "Object: wait / notify / notifyAll\n" +
                 "Коллекции и Concurrency")
         File("temp.txt").delete()
+    }
+
+
+    private val outContent = ByteArrayOutputStream()
+    @Test
+    fun writeInCmd(){
+        System.setOut(PrintStream(outContent))
+        Tail("", listOf("src\\test\\resources\\text4.txt","src\\test\\resources\\text3.txt"),"c",10).start()
+        assertEquals("src\\test\\resources\\text4.txt\n" +
+                " студенты.\n" +
+                "src\\test\\resources\\text3.txt\n" +
+                "oncurrency",outContent.toString())
+
+        Tail("", listOf("src\\test\\resources\\text4.txt","src\\test\\resources\\text3.txt"),"n",2).start()
+        assertEquals("src\\test\\resources\\text4.txt\n" +
+                " студенты.\n" +
+                "src\\test\\resources\\text3.txt\n" +
+                "oncurrencysrc\\test\\resources\\text4.txt\n" +
+                "Информационный поиск\n" +
+                "Выполняются НИР как с отечественными, так и с зарубежными партнерами. В НИР принимают активное участие преподаватели, аспиранты и студенты.\n" +
+                "src\\test\\resources\\text3.txt\n" +
+                "Object: wait / notify / notifyAll\n" +
+                "Коллекции и Concurrency",outContent.toString())
 
     }
+
     }
+

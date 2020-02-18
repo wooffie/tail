@@ -95,13 +95,9 @@ class Tail(private val outputFileName : String , private val inputFilesNames : L
     /** Фунецкиця вывода в командную строку
      */
     internal fun writeInCmd(outData : OutputData) {
-        println(outData.returnData().joinToString("\n") { it.joinToString("\n") })
+        print(outData.returnData().joinToString("\n") { it.joinToString("\n") })
     }
 
+
 }
 
-fun main(){
-    val path = File("").absolutePath
-    val file = "$path\\test\\input\\text.txt"
-    print(file)
-}
