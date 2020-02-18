@@ -43,17 +43,18 @@ class TailLauncher{
 
         if (c == null && n == null){
             n = 10
+        } else {
+            if (c != null && n != null) {
+                throw Exception("Incorrect options") // проверка того , чтобы не было одновременно -c и -n
+            }
         }
-        if (c != null && n != null){
-            throw Exception("Incorrect options") // проверка того , чтобы не было одновременно -c и -n
-        }
-
         //запускаем утилиту
         try{
             if ((n ?: 0) > 0) {
                 Tail(outputFileName, inputFilesNames, "n", n!!).start()
             } else {
                 requireNotNull(c)
+                require(c!! > 0) {"option must to be natural number"}
                 Tail(outputFileName, inputFilesNames, "c", c!!).start()
             }
         }catch (e : IOException){
