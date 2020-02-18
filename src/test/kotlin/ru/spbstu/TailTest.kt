@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.PrintStream
 
+// гнал через ide
 
 class TailTest{
 
@@ -108,7 +109,6 @@ class TailTest{
                 "src\\test\\resources\\text3.txt\n" +
                 "Object: wait / notify / notifyAll\n" +
                 "Коллекции и Concurrency",outContent.toString())
-
     }
 
     }

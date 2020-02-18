@@ -5,7 +5,6 @@ import java.io.IOException
 
 // я сделал функции internal для тестов , по хорошему как класс , так и функции кроме start должны быть private
 
-
 class Tail(private val outputFileName : String , private val inputFilesNames : List<String>, inputOption : String , private val amount : Int){
 
     /** Переменная для хранения типо вывода
@@ -97,7 +96,5 @@ class Tail(private val outputFileName : String , private val inputFilesNames : L
     internal fun writeInCmd(outData : OutputData) {
         print(outData.returnData().joinToString("\n") { it.joinToString("\n") })
     }
-
-
 }
 

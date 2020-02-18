@@ -18,10 +18,10 @@ fun main(args: Array<String>){
  */
 class TailLauncher{
     @Option(name = "-c",metaVar = "LastSymbols", required = false, usage="Take last *num* symbols")
-    private var c = 0 // последние символы
+    private var c : Int? = null // последние символы
 
     @Option(name = "-n",metaVar = "LastLine", required = false, usage="Take last *num* lines")
-    private var n = 0 // последние строки
+    private var n : Int? = null // последние строки
 
     @Option(name = "-o",metaVar = "OutputName", required = false, usage="Output file name")
     private var outputFileName = "" // файл вывода
@@ -41,25 +41,26 @@ class TailLauncher{
             return
         }
 
-        if (c < 0 || n < 0 || c+n ==0){
+        if (c == null && n == null){
+            n = 10
+        }
+        if (c != null && n != null){
             throw Exception("Incorrect options") // проверка того , чтобы не было одновременно -c и -n
         }
 
-
         //запускаем утилиту
         try{
-            if (n > 0) {
-                Tail(outputFileName, inputFilesNames, "n", n).start()
+            if ((n ?: 0) > 0) {
+                Tail(outputFileName, inputFilesNames, "n", n!!).start()
             } else {
-                Tail(outputFileName, inputFilesNames, "c", c).start()
+                requireNotNull(c)
+                Tail(outputFileName, inputFilesNames, "c", c!!).start()
             }
         }catch (e : IOException){
             println(e.message) // чтобы ничего не бросать в классе , делаем это тут
             // над функциями которые работают с файлами указаны аннотации
             return
         }
-
-
     }
 }
 
