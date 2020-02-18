@@ -1,74 +1,87 @@
 import java.io.File
 import java.io.IOException
 
-class Tail(private val outputFileName : String , private val inputFilesNames : List<String>, inputOption : String , private val num : Int){
+class Tail(private val outputFileName : String , private val inputFilesNames : List<String>, inputOption : String , private val amount : Int){
+
+    /** Переменная для хранения типо вывода
+     */
     private val trueIfLines : Boolean = inputOption == "n"
 
+    /** Вспомогательный класс для более удобной работы с данными
+     * По умолчанию хранит список списков. В последних в первой ячейке хранится название файла
+     * Если название файла оказывается ненужным, то returnData() не возвращает его в списках
+     */
+    private class OutputData {
+        private val data = mutableListOf<List<String>>()
 
+        fun add(fileName :String, fileData : List<String>){
+            data.add(listOf(fileName).plus(fileData))
+        }
+
+        fun returnData(): List<List<String>> = if (data.size == 1) {
+            listOf(data.first().drop(1))
+        } else {
+            data
+        }
+    }
+
+    /** Функция начала работы утилиты. Тут проводятся проверки для того , чтобы понимать откуда и куда мы будем выводить
+     */
     fun start(){
         if (outputFileName.isNotEmpty()){
             if (inputFilesNames.isNotEmpty()){
-                writeInFile(readFromFile())
+                writeInFile(readFromFile()) // Files -> File
             } else{
-                writeInFile(readFromCmd())
+                writeInFile(readFromCmd()) // Cmd -> File
             }
         } else {
             if (inputFilesNames.isNotEmpty()){
-                writeInCmd(readFromFile())
+                writeInCmd(readFromFile()) // Files -> Cmd
             } else{
-                writeInCmd(readFromCmd())
+                writeInCmd(readFromCmd()) // Cmd -> File
             }
         }
     }
 
+    /** Функция которая читает нужные нам файлы и записывает только необходимую информацию для вывода пользователю
+     *  Возращает готовые данные для вывода в объекте класса OutputData
+     */
     @Throws(IOException::class)
-    fun readFromFile() : List<List<String>>{
-        val result = mutableListOf<List<String>>()
+    private fun readFromFile() : OutputData{
+        val outData = OutputData()
         for(fileName in inputFilesNames){
             if (trueIfLines){
-                result.add(File(fileName).readLines().takeLast(num))
+                outData.add(fileName,File(fileName).readLines().takeLast(amount))
             } else{
-                result.add(listOf(File(fileName).readText().takeLast(num)))
+                outData.add(fileName,listOf(File(fileName).readText().takeLast(amount)))
             }
         }
-        return result
+        return outData
     }
 
-    fun readFromCmd() : List<List<String>>{
-        TODO()
+    /** Функция которая читает командную строку и записывает только необходимую информацию для вывода пользователю
+     *  Возращает готовые данные для вывода в объекте класса OutputData
+     */
+    private fun readFromCmd() : OutputData{
+        val outData = OutputData()
+        println("Input text:")
+        outData.add("",listOf(readLine()!!.takeLast(amount)))
+        return outData
     }
 
+    /** Функция для записи в файл , принимает необходимые данные и записывает в файл.
+     */
     @Throws(IOException::class)
-    fun writeInFile(lists : List<List<String>>) {
-        if (inputFilesNames.size <= 1) {
-            File(outputFileName).writeText(lists.first().joinToString("\n"))
-        } else {
-            File(outputFileName).bufferedWriter().use {
-                for(ind in inputFilesNames.indices){
-                    it.write("file: " + inputFilesNames[ind]+"\n")
-                    it.write(lists[ind].joinToString("\n"))
-                    it.newLine()
-                }
-            }
-        }
+    private fun writeInFile(outData : OutputData) {
+            File(outputFileName).writeText(outData.returnData().joinToString("\n") { it.joinToString("\n") })
     }
 
-    fun writeInCmd(lists : List<List<String>>) {
-        if (inputFilesNames.size <= 1) {
-            println(lists.first().joinToString("\n"))
-        } else {
-                for(ind in inputFilesNames.indices){
-                    println("file: " + inputFilesNames[ind])
-                    println(lists[ind].joinToString("\n"))
-                    println()
-                }
-        }
+
+    /** Фунецкиця вывода в командную строку
+     */
+    private fun writeInCmd(outData : OutputData) {
+        println(outData.returnData().joinToString("\n") { it.joinToString("\n") })
     }
 
 }
 
-fun main(){
-    println(Tail("",listOf("C:\\Users\\woof\\IdeaProjects\\console_utility\\src\\main\\resources\\text.txt" ,
-        "C:\\Users\\woof\\IdeaProjects\\console_utility\\src\\main\\resources\\text2.txt"),"n",4).start())
-
-}
