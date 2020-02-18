@@ -17,40 +17,40 @@ class TailTest{
     @Test
     fun readFromFile(){
         var expected = Tail.OutputData()
-        var result = Tail("", listOf("src\\test\\input\\text.txt"),"n",3).readFromFile()
+        var result = Tail("", listOf("src\\test\\resources\\text.txt"),"n",3).readFromFile()
         expected.add("", listOf("А бесы прыгали в веселии великом.", "" , "Я издали глядел — смущением томим."))
         assertEquals(expected,result)
         expected = Tail.OutputData()
         assertNotEquals(expected,result)
-        result = Tail("", listOf("src\\test\\input\\text.txt","src\\test\\input\\text2.txt"),"n",2).readFromFile()
-        expected.add("src\\test\\input\\text.txt", listOf("" , "Я издали глядел — смущением томим."))
-        expected.add("src\\test\\input\\text2.txt", listOf("Он стоит, задумался глубоко," , "И тихонько плачет он в пустыне."))
+        result = Tail("", listOf("src\\test\\resources\\text.txt","src\\test\\resources\\text2.txt"),"n",2).readFromFile()
+        expected.add("src\\test\\resources\\text.txt", listOf("" , "Я издали глядел — смущением томим."))
+        expected.add("src\\test\\resources\\text2.txt", listOf("Он стоит, задумался глубоко," , "И тихонько плачет он в пустыне."))
         assertEquals(expected,result)
         expected = Tail.OutputData()
-        result = Tail("", listOf("src\\test\\input\\text.txt","src\\test\\input\\text2.txt"),"c",10).readFromFile()
-        expected.add("src\\test\\input\\text.txt", listOf("ием томим."))
-        expected.add("src\\test\\input\\text2.txt", listOf("в пустыне."))
+        result = Tail("", listOf("src\\test\\resources\\text.txt","src\\test\\resources\\text2.txt"),"c",10).readFromFile()
+        expected.add("src\\test\\resources\\text.txt", listOf("ием томим."))
+        expected.add("src\\test\\resources\\text2.txt", listOf("в пустыне."))
         assertEquals(expected,result)
     }
 
     @Test
     fun writeInFile(){
-        Tail("temp.txt", listOf("src\\test\\input\\text.txt"),"n",3).start()
+        Tail("temp.txt", listOf("src\\test\\resources\\text.txt"),"n",3).start()
         assertFileContent("temp.txt","А бесы прыгали в веселии великом.\n" +
                 "\n" +
                 "Я издали глядел — смущением томим.")
         File("temp.txt").delete()
 
-        Tail("temp.txt", listOf("src\\test\\input\\text.txt"),"n",999).start()
-        assertFileContent("temp.txt",File("src\\test\\input\\text.txt").readLines().joinToString("\n"))
+        Tail("temp.txt", listOf("src\\test\\resources\\text.txt"),"n",999).start()
+        assertFileContent("temp.txt",File("src\\test\\resources\\text.txt").readLines().joinToString("\n"))
         File("temp.txt").delete()
 
 
-        Tail("temp.txt", listOf("src\\test\\input\\text3.txt"),"c",23).start()
+        Tail("temp.txt", listOf("src\\test\\resources\\text3.txt"),"c",23).start()
         assertFileContent("temp.txt","Коллекции и Concurrency")
         File("temp.txt").delete()
 
-        Tail("temp.txt", listOf("src\\test\\input\\text3.txt"),"c",9999).start()
+        Tail("temp.txt", listOf("src\\test\\resources\\text3.txt"),"c",9999).start()
         assertFileContent("temp.txt","Типы в Java: примитивные / ссылочные, обёртки примитивных типов, массивы, null\n" +
                 "Класс Object: equals / hashCode / toString\n" +
                 "Видимость в языке Java: public / protected / private / package private\n" +
