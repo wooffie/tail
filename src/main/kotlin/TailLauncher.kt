@@ -2,6 +2,7 @@ import org.kohsuke.args4j.Argument
 import org.kohsuke.args4j.CmdLineException
 import org.kohsuke.args4j.CmdLineParser
 import org.kohsuke.args4j.Option
+import java.io.IOException
 
 
 fun main(args: Array<String>){
@@ -37,6 +38,18 @@ class TailLauncher{
         if (c < 0 || n < 0 || c+n ==0){
             throw Exception("Incorrect options")
         }
+
+        try{
+            if (n > 0) {
+                Tail(outputFileName, inputFilesNames, "n", n).start()
+            } else {
+                Tail(outputFileName, inputFilesNames, "c", c).start()
+            }
+        }catch (e : IOException){
+            println(e.message)
+            return
+        }
+
 
     }
 }
