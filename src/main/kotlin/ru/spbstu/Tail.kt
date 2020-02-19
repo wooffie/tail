@@ -34,7 +34,7 @@ class Tail(
         // для тестов
         override fun equals(other: Any?) =
             other is OutputData &&
-                    returnData() == other.returnData()
+                    returnData().toSet() == other.returnData().toSet()
 
         override fun hashCode(): Int {
             return data.hashCode()
@@ -61,7 +61,7 @@ class Tail(
     }
 
     /** Функция которая читает нужные нам файлы и записывает только необходимую информацию для вывода пользователю
-     *  Возращает готовые данные для вывода в объекте класса OutputData
+     *  Возращает готовые данные для вывода в экземпляре класса OutputData
      */
     @Throws(IOException::class)
     internal fun readFromFile(): OutputData {
@@ -77,7 +77,7 @@ class Tail(
     }
 
     /** Функция которая читает командную строку и записывает только необходимую информацию для вывода пользователю
-     *  Возращает готовые данные для вывода в объекте класса OutputData
+     *  Возращает готовые данные для вывода в экземпляре класса OutputData
      */
     internal fun readFromCmd(): OutputData {
         val outData = OutputData()
