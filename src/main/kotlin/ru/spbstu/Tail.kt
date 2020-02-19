@@ -5,11 +5,16 @@ import java.io.IOException
 
 // я сделал функции internal для тестов , по хорошему как класс , так и функции кроме start должны быть private
 
-class Tail(private val outputFileName : String , private val inputFilesNames : List<String>, inputOption : String , private val amount : Int){
+class Tail(
+    private val outputFileName: String,
+    private val inputFilesNames: List<String>,
+    inputOption: String,
+    private val amount: Int
+) {
 
     /** Переменная для хранения типо вывода
      */
-    private val trueIfLines : Boolean = inputOption == "n"
+    private val trueIfLines: Boolean = inputOption == "n"
 
     /** Вспомогательный класс для более удобной работы с данными
      * По умолчанию хранит список списков. В последних в первой ячейке хранится название файла
@@ -18,7 +23,7 @@ class Tail(private val outputFileName : String , private val inputFilesNames : L
     internal class OutputData {
         private val data = mutableListOf<List<String>>()
 
-        fun add(fileName :String, fileData : List<String>){
+        fun add(fileName: String, fileData: List<String>) {
             data.add(listOf(fileName).plus(fileData))
         }
 
@@ -41,17 +46,17 @@ class Tail(private val outputFileName : String , private val inputFilesNames : L
 
     /** Функция начала работы утилиты. Тут проводятся проверки для того , чтобы понимать откуда и куда мы будем выводить
      */
-    fun start(){
-        if (outputFileName.isNotEmpty()){
-            if (inputFilesNames.isNotEmpty()){
+    fun start() {
+        if (outputFileName.isNotEmpty()) {
+            if (inputFilesNames.isNotEmpty()) {
                 writeInFile(readFromFile()) // Files -> File
-            } else{
+            } else {
                 writeInFile(readFromCmd()) // Cmd -> File
             }
         } else {
-            if (inputFilesNames.isNotEmpty()){
+            if (inputFilesNames.isNotEmpty()) {
                 writeInCmd(readFromFile()) // Files -> Cmd
-            } else{
+            } else {
                 writeInCmd(readFromCmd()) // Cmd -> File
             }
         }
@@ -61,13 +66,13 @@ class Tail(private val outputFileName : String , private val inputFilesNames : L
      *  Возращает готовые данные для вывода в объекте класса OutputData
      */
     @Throws(IOException::class)
-    internal fun readFromFile() : OutputData {
+    internal fun readFromFile(): OutputData {
         val outData = OutputData()
-        for(fileName in inputFilesNames){
-            if (trueIfLines){
-                outData.add(fileName,File(fileName).readLines().takeLast(amount))
-            } else{
-                outData.add(fileName,listOf(File(fileName).readText().takeLast(amount)))
+        for (fileName in inputFilesNames) {
+            if (trueIfLines) {
+                outData.add(fileName, File(fileName).readLines().takeLast(amount))
+            } else {
+                outData.add(fileName, listOf(File(fileName).readText().takeLast(amount)))
             }
         }
         return outData
@@ -76,24 +81,24 @@ class Tail(private val outputFileName : String , private val inputFilesNames : L
     /** Функция которая читает командную строку и записывает только необходимую информацию для вывода пользователю
      *  Возращает готовые данные для вывода в объекте класса OutputData
      */
-    internal fun readFromCmd() : OutputData {
+    internal fun readFromCmd(): OutputData {
         val outData = OutputData()
         println("Input text:")
-        outData.add("",listOf(readLine()!!.takeLast(amount)))
+        outData.add("", listOf(readLine()!!.takeLast(amount)))
         return outData
     }
 
     /** Функция для записи в файл , принимает необходимые данные и записывает в файл.
      */
     @Throws(IOException::class)
-    internal fun writeInFile(outData : OutputData) {
-            File(outputFileName).writeText(outData.returnData().joinToString("\n") { it.joinToString("\n") })
+    internal fun writeInFile(outData: OutputData) {
+        File(outputFileName).writeText(outData.returnData().joinToString("\n") { it.joinToString("\n") })
     }
 
 
     /** Фунецкиця вывода в командную строку
      */
-    internal fun writeInCmd(outData : OutputData) {
+    internal fun writeInCmd(outData: OutputData) {
         print(outData.returnData().joinToString("\n") { it.joinToString("\n") })
     }
 }
