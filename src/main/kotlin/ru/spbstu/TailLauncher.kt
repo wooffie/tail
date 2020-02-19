@@ -15,6 +15,7 @@ fun main(args: Array<String>) {
 
 /**
  * Класс который обрабатывает аргументы и запускает утилиту
+ * Оставил опции  required = false , чтобы было лучше понятно при прочтении кода. Можно убрать т.к. дефолтное значение false
  */
 class TailLauncher {
     @Option(name = "-c", metaVar = "LastSymbols", required = false, usage = "Take last *num* symbols")

@@ -2,6 +2,7 @@
   <dictionary name="woof">
     <words>
       <w>ofile</w>
+      <w>oncurrencysrc</w>
     </words>
   </dictionary>
 </component>

@@ -6,13 +6,11 @@ import java.io.IOException
 // я сделал функции internal для тестов , по хорошему как класс , так и функции кроме start должны быть private
 
 class Tail(
-    private val outputFileName: String,
-    private val inputFilesNames: List<String>,
-    inputOption: String,
-    private val amount: Int
+    private val outputFileName: String, private val inputFilesNames: List<String>,
+    inputOption: String, private val amount: Int
 ) {
 
-    /** Переменная для хранения типо вывода
+    /** Переменная для хранения типа вывода
      */
     private val trueIfLines: Boolean = inputOption == "n"
 
@@ -96,7 +94,7 @@ class Tail(
     }
 
 
-    /** Фунецкиця вывода в командную строку
+    /** Функция вывода в командную строку
      */
     internal fun writeInCmd(outData: OutputData) {
         print(outData.returnData().joinToString("\n") { it.joinToString("\n") })

@@ -16,9 +16,11 @@ class TailTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun optionsExceptionForC() {
+    fun optionsExceptionForOne() {
         TailLauncher().launch(arrayOf("-c", "-5"))
+        TailLauncher().launch(arrayOf("-n", "-5"))
     }
+    // больше тестов на исключения не делал , потому что они обрабатываются через try-catch
 
     private fun assertFileContent(name: String, expectedContent: String) {
         val file = File(name)
