@@ -29,9 +29,11 @@ jar {
     from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
 }
 
-/*task wrapper(type: Wrapper) {
+/* Я впринципе понимаю как работает враппер , но как он должен быть прописан тут?
+Или его надо один раз запустить только , чтоб не падала ошибка?
+task wrapper(type: Wrapper) {
     gradleVersion = '5.2.1'
 }
 
- */
+*/
 
