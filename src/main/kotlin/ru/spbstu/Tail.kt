@@ -3,7 +3,7 @@ package ru.spbstu
 import java.io.File
 import java.io.IOException
 
-// я сделал функции internal для тестов , по хорошему как класс , так и функции кроме start должны быть private
+// я сделал функции и класс internal для тестов , по хорошему как класс , так и функции кроме start должны быть private
 
 class Tail(
     private val outputFileName: String, private val inputFilesNames: List<String>,
@@ -18,6 +18,7 @@ class Tail(
      * По умолчанию хранит список списков. В последних в первой ячейке хранится название файла
      * Если название файла оказывается ненужным, то returnData() не возвращает его в списках
      */
+    // static? / class field?
     internal class OutputData {
         private val data = mutableListOf<List<String>>()
 
@@ -62,6 +63,7 @@ class Tail(
 
     /** Функция которая читает нужные нам файлы и записывает только необходимую информацию для вывода пользователю
      *  Возращает готовые данные для вывода в экземпляре класса OutputData
+     *  Надо ли использовать bufferedReader для случаев когда символов очень много?
      */
     @Throws(IOException::class)
     internal fun readFromFile(): OutputData {

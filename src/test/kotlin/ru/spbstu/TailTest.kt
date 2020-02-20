@@ -7,7 +7,8 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.PrintStream
 
-// гнал через ide
+//junit ru.spbstu.TailTest
+
 class TailTest {
 
     @Test(expected = IllegalArgumentException::class)
@@ -27,6 +28,24 @@ class TailTest {
         val content = file.readLines().joinToString("\n")
         assertEquals(expectedContent, content)
     }
+
+    @Test
+    fun bigTextTest() {
+        Tail("temp.txt", listOf("src\\test\\resources\\bigtext.txt"), "c", 90000).start()
+        assertEquals(
+            File("temp.txt").readText(), File("src\\test\\resources\\bigtext.txt").readText()
+        )
+        Tail("temp.txt", listOf("src\\test\\resources\\bigtext2.txt"), "n", 100500).start()
+
+        assertFileContent(
+            "temp.txt", File("src\\test\\resources\\bigtext2.txt").readText()
+        )
+        // не проходит , хотя пишет , что "Contents are identical"
+        // в ручных тестах всё работает хорошо
+        File("temp.txt").delete()
+
+    }
+
 
     @Test
     fun readFromFile() {
