@@ -50,13 +50,17 @@ class TailTest {
     @Test
     fun readFromFile() {
         var expected = Tail.OutputData()
-        var result = Tail("", listOf("src\\test\\resources\\text.txt"), "n", 3).readFromFile()
+        var result =
+            Tail("", listOf("src\\test\\resources\\text.txt"), "n", 3).readFromFile()
         expected.add("", listOf("А бесы прыгали в веселии великом.", "", "Я издали глядел — смущением томим."))
         assertEquals(expected, result)
         expected = Tail.OutputData()
         assertNotEquals(expected, result)
         result =
-            Tail("", listOf("src\\test\\resources\\text.txt", "src\\test\\resources\\text2.txt"), "n", 2).readFromFile()
+            Tail(
+                "", listOf("src\\test\\resources\\text.txt", "src\\test\\resources\\text2.txt"),
+                "n", 2
+            ).readFromFile()
         expected.add("src\\test\\resources\\text.txt", listOf("", "Я издали глядел — смущением томим."))
         expected.add(
             "src\\test\\resources\\text2.txt",
@@ -84,7 +88,10 @@ class TailTest {
         File("temp.txt").delete()
 
         Tail("temp.txt", listOf("src\\test\\resources\\text.txt"), "n", 999).start()
-        assertFileContent("temp.txt", File("src\\test\\resources\\text.txt").readLines().joinToString("\n"))
+        assertFileContent(
+            "temp.txt",
+            File("src\\test\\resources\\text.txt").readLines().joinToString("\n")
+        )
         File("temp.txt").delete()
 
         Tail("temp.txt", listOf("src\\test\\resources\\text3.txt"), "c", 23).start()
@@ -132,7 +139,10 @@ class TailTest {
     @Test
     fun writeInCmd() {
         System.setOut(PrintStream(outContent))
-        Tail("", listOf("src\\test\\resources\\text4.txt", "src\\test\\resources\\text3.txt"), "c", 10).start()
+        Tail(
+            "", listOf("src\\test\\resources\\text4.txt", "src\\test\\resources\\text3.txt"),
+            "c", 10
+        ).start()
         assertEquals(
             "src\\test\\resources\\text4.txt\n" +
                     " студенты.\n" +
@@ -140,14 +150,18 @@ class TailTest {
                     "oncurrency", outContent.toString()
         )
 
-        Tail("", listOf("src\\test\\resources\\text4.txt", "src\\test\\resources\\text3.txt"), "n", 2).start()
+        Tail(
+            "", listOf("src\\test\\resources\\text4.txt", "src\\test\\resources\\text3.txt"),
+            "n", 2
+        ).start()
         assertEquals(
             "src\\test\\resources\\text4.txt\n" +
                     " студенты.\n" +
                     "src\\test\\resources\\text3.txt\n" +
                     "oncurrencysrc\\test\\resources\\text4.txt\n" +
                     "Информационный поиск\n" +
-                    "Выполняются НИР как с отечественными, так и с зарубежными партнерами. В НИР принимают активное участие преподаватели, аспиранты и студенты.\n" +
+                    "Выполняются НИР как с отечественными, так и с зарубежными партнерами. В НИР принимают активное " +
+                    "участие преподаватели, аспиранты и студенты.\n" +
                     "src\\test\\resources\\text3.txt\n" +
                     "Object: wait / notify / notifyAll\n" +
                     "Коллекции и Concurrency", outContent.toString()

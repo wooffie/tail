@@ -101,4 +101,3 @@ class Tail(
         print(outData.returnData().joinToString("\n") { it.joinToString("\n") })
     }
 }
-
