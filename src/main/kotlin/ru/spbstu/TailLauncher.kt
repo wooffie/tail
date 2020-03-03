@@ -6,17 +6,16 @@ import org.kohsuke.args4j.CmdLineParser
 import org.kohsuke.args4j.Option
 import java.io.IOException
 
-/**
- * Главная функция
- */
+
 fun main(args: Array<String>) {
     TailLauncher().launch(args)
 }
 
 /**
  * Класс который обрабатывает аргументы и запускает утилиту
- * Оставил опции  required = false , чтобы было лучше понятно при прочтении кода. Можно убрать т.к. дефолтное значение false
  */
+
+//Оставил опции  required = false , чтобы было лучше понятно при прочтении кода.
 class TailLauncher {
     @Option(name = "-c", metaVar = "LastSymbols", required = false, usage = "Take last *num* symbols")
     private var c: Int? = null // последние символы
@@ -38,19 +37,19 @@ class TailLauncher {
         } catch (e: CmdLineException) {
             println(e.message)
             println("java -jar tail.jar [-c num|-n num] [-o ofile] file0 file1 file2")
-            parser.printUsage(System.out) // если что-то не так то выдаём пользователю список опций и аргументов
+            parser.printUsage(System.out)
             return
         }
 
 
         if (c != null && n != null) {
-            throw IllegalArgumentException()// проверка того , чтобы не было одновременно -c и -n
+            throw IllegalArgumentException()
         }
+
         if (c == null && n == null) {
             n = 10
         }
 
-        //запускаем утилиту
         try {
             when {
                 n != null && n!! > 0 -> Tail(outputFileName, inputFilesNames, "n", n!!).start()
@@ -58,8 +57,7 @@ class TailLauncher {
                 else -> throw IllegalArgumentException()
             }
         } catch (e: IOException) {
-            println(e.message) // чтобы ничего не бросать в классе , делаем это тут
-            // над функциями которые работают с файлами указаны аннотации
+            println(e.message)
             return
         }
     }

@@ -2,8 +2,9 @@ package ru.spbstu
 
 import java.io.File
 import java.io.IOException
+import java.util.*
 
-// я сделал функции и класс internal для тестов , по хорошему как класс , так и функции кроме start должны быть private
+// internal for tests
 
 class Tail(
     private val outputFileName: String, private val inputFilesNames: List<String>,
@@ -18,7 +19,6 @@ class Tail(
      * По умолчанию хранит список списков. В последних в первой ячейке хранится название файла
      * Если название файла оказывается ненужным, то returnData() не возвращает его в списках
      */
-    // static? / class field?
     internal class OutputData {
         private val data = mutableListOf<List<String>>()
 
@@ -56,7 +56,7 @@ class Tail(
             if (inputFilesNames.isNotEmpty()) {
                 writeInCmd(readFromFile()) // Files -> Cmd
             } else {
-                writeInCmd(readFromCmd()) // Cmd -> File
+                writeInCmd(readFromCmd()) // Cmd -> Cmd
             }
         }
     }
@@ -81,9 +81,19 @@ class Tail(
      *  Возращает готовые данные для вывода в экземпляре класса OutputData
      */
     internal fun readFromCmd(): OutputData {
+        println("End input with empty line:")
         val outData = OutputData()
-        println("Input text:")
-        outData.add("", listOf(readLine()!!.takeLast(amount)))
+        val scan = Scanner(System.`in`)
+        val current = mutableListOf<String>()
+        do {
+            current.add(scan.nextLine())
+        }while(current.last() != "")
+        current.remove("")
+        if (trueIfLines) {
+            outData.add("", current.takeLast(amount))
+        } else {
+            outData.add("", listOf(current.joinToString().takeLast(amount)))
+        }
         return outData
     }
 
