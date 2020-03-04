@@ -10,25 +10,25 @@ class Tail(
 {
     private val printFileNames = inputFilesNames.size > 1
 
-
     fun start() {
         val result = mutableListOf<StringBuilder>()
         if (inputFilesNames.isEmpty()) {
-            //
+            File("tmp.txt").writeBytes(System.`in`.readAllBytes())
+            result.add(readFromFile(File("tmp.txt")))
+            File("tmp.txt").delete()
         } else {
             for (fileName in inputFilesNames) {
-                result.add(readFromFile(fileName))
+                result.add(readFromFile(File(fileName)))
             }
         }
         write(result)
     }
 
     @Throws(IOException::class)
-    private fun readFromFile(fileName: String): StringBuilder {
-        File(fileName)
+    private fun readFromFile(file: File): StringBuilder {
         val result = StringBuilder()
-        val randomAccessFile = RandomAccessFile(File(fileName), "r")
-        var pointer = File(fileName).length() - 1
+        val randomAccessFile = RandomAccessFile(file, "r")
+        var pointer = file.length() - 1
         var flag = 0
         while (pointer >= 0 && flag < amount) {
             randomAccessFile.seek(pointer)
@@ -48,12 +48,11 @@ class Tail(
         if (pointer < 0 && inputOption == InputOption.LastLines){
             result.append("\n")
         }
-
         return if (printFileNames) {
             if (inputOption == InputOption.LastLines) {
-                StringBuilder("$fileName:").append(result.reverse(), "\n")
+                StringBuilder("${file.name}:").append(result.reverse(), "\n")
             } else {
-                StringBuilder("$fileName:\n").append(result.reverse(), "\n")
+                StringBuilder("${file.name}:\n").append(result.reverse(), "\n")
             }
         } else {
             result.reverse()
