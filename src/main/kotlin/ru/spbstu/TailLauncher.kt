@@ -52,8 +52,8 @@ class TailLauncher {
 
         try {
             when {
-             //   n != null && n!! > 0 -> Tail(outputFileName, inputFilesNames, InputOption.LastLines, n!!).start()
-              //  c != null && c!! > 0 -> Tail(outputFileName, inputFilesNames, InputOption.LastSymbols, c!!).start()
+                n != null && n!! > 0 -> Tail(outputFileName, inputFilesNames, InputOption.LastLines, n!!).start()
+                c != null && c!! > 0 -> Tail(outputFileName, inputFilesNames, InputOption.LastSymbols, c!!).start()
                 else -> throw IllegalArgumentException()
             }
         } catch (e: IOException) {
