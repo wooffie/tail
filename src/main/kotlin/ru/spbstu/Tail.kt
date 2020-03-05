@@ -1,72 +1,52 @@
 package ru.spbstu
 
-import java.io.File
-import java.io.IOException
-import java.io.RandomAccessFile
+import java.io.*
 
 class Tail(
     private val outputFileName: String, private val inputFilesNames: List<String>,
-    private val inputOption: InputOption, private val amount: Int)
-{
+    private val inputOption: InputOption, private val amount: Int
+) {
     private val printFileNames = inputFilesNames.size > 1
+}
 
-    fun start() {
-        val result = mutableListOf<StringBuilder>()
-        if (inputFilesNames.isEmpty()) {
-            File("tmp.txt").writeBytes(System.`in`.readAllBytes())
-            result.add(readFromFile(File("tmp.txt")))
-            File("tmp.txt").delete()
-        } else {
-            for (fileName in inputFilesNames) {
-                result.add(readFromFile(File(fileName)))
-            }
-        }
-        write(result)
+fun foo(inputStream: FileInputStream , amount: Int) : StringBuilder {
+    val result = StringBuilder()
+    val time = System.currentTimeMillis()
+    val fis =  inputStream.channel
+    var pos = fis.size() - 1
+    var flag = 0
+    while (flag != amount){
+        fis.position(pos)
+        result.append(inputStream.read().toChar())
+        flag++
+        pos--
     }
-
-    @Throws(IOException::class)
-    private fun readFromFile(file: File): StringBuilder {
-        val result = StringBuilder()
-        val randomAccessFile = RandomAccessFile(file, "r")
-        var pointer = file.length() - 1
-        var flag = 0
-        while (pointer >= 0 && flag < amount) {
-            randomAccessFile.seek(pointer)
-            val nextChar = randomAccessFile.read().toChar()
-            if (nextChar == '\n' && inputOption == InputOption.LastLines) {
-                flag++
-                result.append(nextChar)
-            }
-            if (!nextChar.isISOControl()) {
-                result.append(nextChar)
-                if (inputOption == InputOption.LastSymbols) {
-                    flag++
-                }
-            }
-            pointer--
-        }
-        if (pointer < 0 && inputOption == InputOption.LastLines){
-            result.append("\n")
-        }
-        return if (printFileNames) {
-            if (inputOption == InputOption.LastLines) {
-                StringBuilder("${file.name}:").append(result.reverse(), "\n")
-            } else {
-                StringBuilder("${file.name}:\n").append(result.reverse(), "\n")
-            }
-        } else {
-            result.reverse()
-        }
-    }
-
-    @Throws(IOException::class)
-    private fun write(sb: List<StringBuilder>) {
-        if (outputFileName.isEmpty()) {
-            println(sb.joinToString(""))
-        } else {
-            File(outputFileName).writeText(sb.joinToString(""))
-        }
-    }
+    println("time: ${System.currentTimeMillis()-time} ms")
+    return result.reverse()
 }
 
 
+fun main() {
+    val y = FileInputStream(File("txt.txt"))
+    println(foo(y , 6))
+    println(foo2(File("txt.txt"),6))
+}
+
+private fun foo2(file: File , amount : Int): StringBuilder{
+    val time = System.currentTimeMillis()
+    val result = StringBuilder()
+    val randomAccessFile = RandomAccessFile(file, "r")
+    var pointer = file.length() - 1
+    var flag = 0
+    while (pointer >= 0 && flag < amount) {
+        randomAccessFile.seek(pointer)
+        val nextChar = randomAccessFile.read().toChar()
+        result.append(nextChar)
+        flag++
+        pointer--
+        }
+    println("time: ${System.currentTimeMillis()-time} ms")
+        return result.reverse()
+}
+
+//foo 2 is faster
