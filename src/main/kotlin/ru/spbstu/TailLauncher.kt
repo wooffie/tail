@@ -15,7 +15,6 @@ fun main(args: Array<String>) {
  * Класс который обрабатывает аргументы и запускает утилиту
  */
 
-//Оставил опции  required = false , чтобы было лучше понятно при прочтении кода.
 class TailLauncher {
     @Option(name = "-c", metaVar = "LastSymbols", required = false, usage = "Take last *num* symbols")
     private var c: Int? = null // последние символы

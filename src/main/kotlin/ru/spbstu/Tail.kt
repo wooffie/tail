@@ -1,6 +1,12 @@
 package ru.spbstu
 
-import java.io.*
+
+import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
+import java.io.RandomAccessFile
+
+
 
 class Tail(
     private val outputFileName: String, private val inputFilesNames: List<String>,
@@ -66,8 +72,7 @@ class Tail(
 }
 
 
-fun foo2(file: File, amount: Int): StringBuilder {
-    val time = System.currentTimeMillis()
+fun readRandomAccess(file: File, amount: Int): StringBuilder {
     val result = StringBuilder()
     val randomAccessFile = RandomAccessFile(file, "r")
     var pointer = file.length() - 1
@@ -79,13 +84,6 @@ fun foo2(file: File, amount: Int): StringBuilder {
         flag++
         pointer--
     }
-    println("time: ${System.currentTimeMillis() - time} ms")
     return result.reverse()
 }
 
-fun main() {
-    val inContent = InputStreamReader(System.`in`)
-    System.`in`.readAllBytes()
-
-    println(inContent.read())
-}
