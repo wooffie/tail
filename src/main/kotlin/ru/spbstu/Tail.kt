@@ -1,9 +1,6 @@
 package ru.spbstu
 
-import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
-import java.io.RandomAccessFile
+import java.io.*
 
 class Tail(
     private val outputFileName: String, private val inputFilesNames: List<String>,
@@ -19,16 +16,18 @@ class Tail(
                 if (printFileNames) {
                     data.append("$fileName:\n")
                 }
-                data.append(read(FileInputStream(File(fileName)), amount),"\n")
+                val stream = FileInputStream(File(fileName))
+                data.append(readFromFile(stream, amount), "\n")
+                stream.close()
             }
         } else {
-            /// TODO()
+            data.append(readFromCmd())
         }
 
         write(data)
     }
 
-    private fun read(inputStream: FileInputStream, amount: Int): StringBuilder {
+    private fun readFromFile(inputStream: FileInputStream, amount: Int): StringBuilder {
         val result = StringBuilder()
         val fis = inputStream.channel
         var pos = fis.size() - 1
@@ -49,6 +48,12 @@ class Tail(
         return result.reverse()
     }
 
+    private fun readFromCmd(): StringBuilder {
+        System.`in`.readAllBytes()
+        return StringBuilder()
+    }
+
+
     @Throws(IOException::class)
     private fun write(data: StringBuilder) {
         if (outputFileName.isEmpty()) {
@@ -57,31 +62,9 @@ class Tail(
             File(outputFileName).writeText(data.toString())
         }
     }
+
 }
 
-
-fun foo(inputStream: FileInputStream, amount: Int): StringBuilder {
-    val result = StringBuilder()
-    val time = System.currentTimeMillis()
-    val fis = inputStream.channel
-    var pos = fis.size() - 1
-    var flag = 0
-    while (flag != amount) {
-        fis.position(pos)
-        result.append(inputStream.read().toChar())
-        flag++
-        pos--
-    }
-    println("time: ${System.currentTimeMillis() - time} ms")
-    return result.reverse()
-}
-
-fun foos() {
-    val y = FileInputStream(File("txt.txt"))
-    println(foo(y, 6))
-    println(foo2(File("txt.txt"), 6))
-    println(foo3())
-}
 
 fun foo2(file: File, amount: Int): StringBuilder {
     val time = System.currentTimeMillis()
@@ -100,9 +83,9 @@ fun foo2(file: File, amount: Int): StringBuilder {
     return result.reverse()
 }
 
-fun foo3() {
-    val file = createTempFile("tmp")
-    file.writeBytes(System.`in`.readAllBytes())
-    println(foo2(file, 6).toString())
-    file.deleteOnExit()
+fun main() {
+    val inContent = InputStreamReader(System.`in`)
+    System.`in`.readAllBytes()
+
+    println(inContent.read())
 }
