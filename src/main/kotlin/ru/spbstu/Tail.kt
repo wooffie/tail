@@ -1,11 +1,7 @@
 package ru.spbstu
 
 
-import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
-import java.io.RandomAccessFile
-
+import java.io.*
 
 
 class Tail(
@@ -55,7 +51,7 @@ class Tail(
     }
 
     private fun readFromCmd(): StringBuilder {
-        System.`in`.readAllBytes()
+        System.`in`
         return StringBuilder()
     }
 
@@ -85,5 +81,32 @@ fun readRandomAccess(file: File, amount: Int): StringBuilder {
         pointer--
     }
     return result.reverse()
+}
+
+ fun readFromFile1(inputStream: FileInputStream, amount: Int): StringBuilder {
+    val result = StringBuilder()
+    val fis = inputStream.channel
+    var pos = fis.size() - 1
+    var flag = 0
+    while (flag != amount && pos >= 0) {
+        fis.position(pos)
+        val c = inputStream.read().toChar()
+        result.append(c)
+        flag++
+        pos--
+    }
+    return result.reverse()
+}
+
+
+fun readFromBufferedInputStream(stream : BufferedInputStream){
+
+}
+
+fun main(){
+    val x = System.`in`
+    val dis = FileDescriptor.`in`
+    val stream = FileInputStream(dis)
+    println(readFromFile1(stream,5))
 }
 
