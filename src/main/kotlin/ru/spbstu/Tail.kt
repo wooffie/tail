@@ -51,7 +51,7 @@ class Tail(
     }
 
     private fun readFromCmd(): StringBuilder {
-        System.`in`
+
         return StringBuilder()
     }
 
@@ -96,17 +96,5 @@ fun readRandomAccess(file: File, amount: Int): StringBuilder {
         pos--
     }
     return result.reverse()
-}
-
-
-fun readFromBufferedInputStream(stream : BufferedInputStream){
-
-}
-
-fun main(){
-    val x = System.`in`
-    val dis = FileDescriptor.`in`
-    val stream = FileInputStream(dis)
-    println(readFromFile1(stream,5))
 }
 
