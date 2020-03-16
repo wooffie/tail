@@ -11,7 +11,7 @@ class TailHeadOn(
 
     @Throws(IOException::class)
     fun start() {
-        val x : OutputStreamWriter = if (outputFileName == ""){
+        val x: OutputStreamWriter = if (outputFileName == "") {
             OutputStreamWriter(System.out)
         } else {
             OutputStreamWriter(FileOutputStream(outputFileName))
@@ -30,6 +30,7 @@ class TailHeadOn(
             }
         } else {
             val buf = InputStreamReader(System.`in`)
+            BufferedReader(buf).readText()
             if (inputOption == InputOption.LastLines) {
                 x.write(readLastLines(buf).joinToString("\n"))
             } else {
@@ -41,8 +42,8 @@ class TailHeadOn(
     private fun readLastLines(inputStream: InputStreamReader): List<String> {
         val list = mutableListOf<String>()
         val reader = BufferedReader(inputStream)
-        while( reader.ready()){
-            if(list.size == amount){
+        while (reader.ready()) {
+            if (list.size == amount) {
                 list.removeAt(0)
             }
             list.add(reader.readLine())
@@ -50,11 +51,11 @@ class TailHeadOn(
         return list
     }
 
-    private fun readLastSymbols(inputStream: InputStreamReader) : List<Char> {
+    private fun readLastSymbols(inputStream: InputStreamReader): List<Char> {
         val list = mutableListOf<Char>()
         val reader = BufferedReader(inputStream)
-        while( reader.ready()){
-            if(list.size == amount){
+        while (reader.ready()) {
+            if (list.size == amount) {
                 list.removeAt(0)
             }
             list.add(reader.read().toChar())
@@ -64,3 +65,6 @@ class TailHeadOn(
 
 }
 
+fun main(){
+    TailHeadOn("out.txt", listOf(),InputOption.LastSymbols,5).start()
+}

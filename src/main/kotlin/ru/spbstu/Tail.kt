@@ -12,24 +12,31 @@ class Tail(
 
     @Throws(IOException::class)
     fun start() {
-        val data = StringBuilder()
+        val outStream: OutputStreamWriter = if (outputFileName == "") {
+            OutputStreamWriter(System.out)
+        } else {
+            OutputStreamWriter(FileOutputStream(outputFileName))
+        }
+
         if (inputFilesNames.isNotEmpty()) {
             for (fileName in inputFilesNames) {
                 if (printFileNames) {
-                    data.append("$fileName:\n")
+                    outStream.write("$fileName:\n")
                 }
-                val stream = FileInputStream(File(fileName))
-                data.append(readFromFile(stream, amount), "\n")
-                stream.close()
+                outStream.write(readData(FileInputStream(File(fileName)), amount).toString() + "\n")
+
             }
         } else {
-            data.append(readFromCmd())
+            val tmpFile = createTempFile("tmp")
+            tmpFile.writeBytes(System.`in`.readAllBytes())
+            println(tmpFile.readText())
+            outStream.write(readData(FileInputStream(tmpFile),amount).toString() + "\n")
+            tmpFile.deleteOnExit()
         }
-
-        write(data)
+        outStream.close()
     }
 
-    private fun readFromFile(inputStream: FileInputStream, amount: Int): StringBuilder {
+    private fun readData(inputStream: FileInputStream, amount: Int): StringBuilder {
         val result = StringBuilder()
         val fis = inputStream.channel
         var pos = fis.size() - 1
@@ -50,21 +57,6 @@ class Tail(
         return result.reverse()
     }
 
-    private fun readFromCmd(): StringBuilder {
-
-        return StringBuilder()
-    }
-
-
-    @Throws(IOException::class)
-    private fun write(data: StringBuilder) {
-        if (outputFileName.isEmpty()) {
-            print(data.toString())
-        } else {
-            File(outputFileName).writeText(data.toString())
-        }
-    }
-
 }
 
 
@@ -83,7 +75,7 @@ fun readRandomAccess(file: File, amount: Int): StringBuilder {
     return result.reverse()
 }
 
- fun readFromFile1(inputStream: FileInputStream, amount: Int): StringBuilder {
+fun readFromFile1(inputStream: FileInputStream, amount: Int): StringBuilder {
     val result = StringBuilder()
     val fis = inputStream.channel
     var pos = fis.size() - 1
@@ -98,3 +90,6 @@ fun readRandomAccess(file: File, amount: Int): StringBuilder {
     return result.reverse()
 }
 
+fun main(){
+    Tail("", listOf(),InputOption.LastSymbols,5).start()
+}
