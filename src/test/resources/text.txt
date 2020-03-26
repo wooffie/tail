@@ -1,57 +1,29 @@
-И дале мы пошли — и страх обнял меня.
-Бесенок, под себя поджав свое копыто,
-Крутил ростовщика у адского огня.
+Borderpanes may be styled with backgrounds and borders using CSS. See Region superclass for details.
 
-Горячий капал жир в копченое корыто,
-И лопал на огне печеный ростовщик.
-А я: «Поведай мне: в сей казни что сокрыто?»
+BorderPane honors the minimum, preferred, and maximum sizes of its children. If the child's resizable range prevents it from be resized to fit within its position, it will be aligned relative to the space using a default alignment as follows:
 
-Виргилий мне: «Мой сын, сей казни смысл велик:
-Одно стяжание имев всегда в предмете,
-Жир должников своих сосал сей злой старик
+top: Pos.TOP_LEFT
+bottom: Pos.BOTTOM_LEFT
+left: Pos.TOP_LEFT
+right: Pos.TOP_RIGHT
+center: Pos.CENTER
+See "Optional Layout Constraints" on how to customize these alignments.
+BorderPane lays out each child set in the five positions regardless of the child's visible property value; unmanaged children are ignored.
 
-И их безжалостно крутил на вашем свете».
-Тут грешник жареный протяжно возопил:
-«О, если б я теперь тонул в холодной Лете!
+Resizable Range
+BorderPane is commonly used as the root of a Scene, in which case its size will track the size of the scene. If the scene or stage size has not been directly set by the application, the scene size will be initialized to the border pane's preferred size. However, if a border pane has a parent other than the scene, that parent will resize the border pane within the border pane's resizable range during layout. By default the border pane computes this range based on its content as outlined in the table below.
+width	height
+minimum	left/right insets plus width required to display right/left children at their pref widths and top/bottom/center with at least their min widths	top/bottom insets plus height required to display top/bottom children at their pref heights and left/right/center with at least their min heights
+preferred	left/right insets plus width required to display top/right/bottom/left/center children with at least their pref widths	top/bottom insets plus height required to display top/right/bottom/left/center children with at least their pref heights
+maximum	Double.MAX_VALUE	Double.MAX_VALUE
+A border pane's unbounded maximum width and height are an indication to the parent that it may be resized beyond its preferred size to fill whatever space is assigned to it.
 
-О, если б зимний дождь мне кожу остудил!
-Сто на сто я терплю: процент неимоверный!»
-Тут звучно лопнул он — я взоры потупил.
+BorderPane provides properties for setting the size range directly. These properties default to the sentinel value Region.USE_COMPUTED_SIZE, however the application may set them to other values as needed:
 
-Тогда услышал я (о диво!) запах скверный,
-Как будто тухлое разбилось яицо,
-Иль карантинный страж курил жаровней серной.
+borderPane.setPrefSize(500,400);
 
-Я, нос себе зажав, отворотил лицо.
-Но мудрый вождь тащил меня все дале, дале —
-И, камень приподняв за медное кольцо,
+Applications may restore the computed values by setting these properties back to Region.USE_COMPUTED_SIZE.
+BorderPane does not clip its content by default, so it is possible that childrens' bounds may extend outside its own bounds if a child's min size prevents it from being fit within it space.
 
-Сошли мы вниз — и я узрел себя в подвале.
-
-II
-
-Тогда я демонов увидел черный рой,
-Подобный издали ватаге муравьиной —
-И бесы тешились проклятою игрой:
-
-До свода адского касалася вершиной
-Гора стеклянная, как Арарат остра —
-И разлегалася над темною равниной.
-
-И бесы, раскалив как жар чугун ядра,
-Пустили вниз его смердящими когтями;
-Ядро запрыгало — и гладкая гора,
-
-Звеня, растрескалась колючими звездами.
-Тогда других чертей нетерпеливый рой
-За жертвой кинулся с ужасными словами.
-
-Схватили под руки жену с ее сестрой,
-И заголили их, и вниз пихнули с криком —
-И обе, сидючи, пустились вниз стрелой…
-
-Порыв отчаянья я внял в их вопле диком;
-Стекло их резало, впивалось в тело им —
-А бесы прыгали в веселии великом.
-
-Я издали глядел — смущением томим.
+Optional Layout Constraints
+An application may set constraints on individual children to customize BorderPane's layout. For each constraint, BorderPane provides a static method for setting it on the child.

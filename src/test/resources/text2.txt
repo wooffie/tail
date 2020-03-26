@@ -1,9 +1,4 @@
-Ночевала тучка золотая
-На груди утеса-великана;
-Утром в путь она умчалась рано,
-По лазури весело играя;
-
-Но остался влажный след в морщине
-Старого утеса. Одиноко
-Он стоит, задумался глубоко,
-И тихонько плачет он в пустыне.
+public final ObjectProperty<Node> rightProperty
+The node placed on the right edge of this border pane. If resizable, it will be resized to its preferred width and it's height will span the height of the border pane between the top and bottom nodes. If the node cannot be resized to fill the right space (it's not resizable or its max size prevents it) then it will be aligned top-right within the space unless the child's alignment constraint has been set.
+See Also:
+getRight(), setRight(Node)

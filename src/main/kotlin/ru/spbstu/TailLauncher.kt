@@ -4,7 +4,7 @@ import org.kohsuke.args4j.Argument
 import org.kohsuke.args4j.CmdLineException
 import org.kohsuke.args4j.CmdLineParser
 import org.kohsuke.args4j.Option
-import java.io.IOException
+import java.io.*
 
 
 fun main(args: Array<String>) {
@@ -14,19 +14,18 @@ fun main(args: Array<String>) {
 /**
  * Класс который обрабатывает аргументы и запускает утилиту
  */
-
 class TailLauncher {
     @Option(name = "-c", metaVar = "LastSymbols", required = false, usage = "Take last *num* symbols")
-    private var c: Int? = null // последние символы
+    private var c: Int? = null
 
     @Option(name = "-n", metaVar = "LastLine", required = false, usage = "Take last *num* lines")
-    private var n: Int? = null // последние строки
+    private var n: Int? = null
 
     @Option(name = "-o", metaVar = "OutputName", required = false, usage = "Output file name")
-    private var outputFileName = "" // файл вывода
+    private var outputFileName = ""
 
     @Argument(required = false, metaVar = "InputFiles", usage = "Input files names")
-    private var inputFilesNames = mutableListOf<String>() // файлы ввода
+    private var inputFilesNames = mutableListOf<String>()
 
 
     fun launch(args: Array<String>) {
@@ -39,22 +38,43 @@ class TailLauncher {
             parser.printUsage(System.out)
             return
         }
-
-
         if (c != null && n != null) {
             throw IllegalArgumentException()
         }
-
-        if (c == null && n == null) {
-            n = 10
+        val tail = if (c != null && c!! > 0) {
+            Tail(InputOption.LastSymbols, c!!)
+        } else {
+            if (n != null && n!! > 0) {
+                Tail(InputOption.LastLines, n!!)
+            } else {
+                if (c == null && n == null) {
+                    Tail(InputOption.LastLines, 10)
+                } else {
+                    println("Illegal argument")
+                    println("java -jar tail.jar [-c num|-n num] [-o ofile] file0 file1 file2")
+                    return
+                }
+            }
         }
 
         try {
-            when {
-                n != null && n!! > 0 -> Tail(outputFileName, inputFilesNames, InputOption.LastLines, n!!).start()
-                c != null && c!! > 0 -> Tail(outputFileName, inputFilesNames, InputOption.LastSymbols, c!!).start()
-                else -> throw IllegalArgumentException()
+            val writer = if (outputFileName == "") {
+                BufferedWriter(OutputStreamWriter(System.out))
+            } else {
+                BufferedWriter(OutputStreamWriter(FileOutputStream(outputFileName)))
             }
+            if (inputFilesNames.isEmpty()) {
+                tail.takeTail(BufferedReader(InputStreamReader(System.`in`)), writer)
+            }
+            for (file in inputFilesNames) {
+                if (inputFilesNames.size > 1) {
+                    writer.write(file)
+                    writer.newLine()
+                }
+                tail.takeTail(BufferedReader(InputStreamReader(FileInputStream(file))), writer)
+                writer.newLine()
+            }
+            writer.close()
         } catch (e: IOException) {
             println(e.message)
             return
