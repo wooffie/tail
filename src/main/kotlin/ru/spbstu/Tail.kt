@@ -3,15 +3,12 @@ package ru.spbstu
 
 import java.io.BufferedReader
 import java.io.BufferedWriter
-import java.io.IOException
-
 
 class Tail(
     private val inputOption: InputOption,
     private val amount: Int
 ) {
 
-    @Throws(IOException::class)
     fun takeTail(reader: BufferedReader, writer: BufferedWriter) {
         if (inputOption == InputOption.LastSymbols) {
             readLastSymbols(reader, writer)
