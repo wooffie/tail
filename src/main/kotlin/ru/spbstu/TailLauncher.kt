@@ -38,24 +38,18 @@ class TailLauncher {
             parser.printUsage(System.out)
             return
         }
-        if (c != null && n != null) {
-            throw IllegalArgumentException()
-        }
-        val tail = if (c != null && c!! > 0) {
-            Tail(InputOption.LastSymbols, c!!)
-        } else {
-            if (n != null && n!! > 0) {
-                Tail(InputOption.LastLines, n!!)
-            } else {
-                if (c == null && n == null) {
-                    Tail(InputOption.LastLines, 10)
-                } else {
-                    println("Illegal argument")
-                    println("java -jar tail.jar [-c num|-n num] [-o ofile] file0 file1 file2")
-                    return
-                }
+
+        val tail = when {
+            c != null && c!! > 0 -> Tail(InputOption.LastSymbols, c!!)
+            n != null && n!! > 0 -> Tail(InputOption.LastLines, n!!)
+            c == null && n == null -> Tail(InputOption.LastLines, 10)
+            else -> {
+                println("Illegal argument")
+                println("java -jar tail.jar [-c num|-n num] [-o ofile] file0 file1 file2")
+                return
             }
         }
+
 
         try {
             val writer = if (outputFileName == "") {
