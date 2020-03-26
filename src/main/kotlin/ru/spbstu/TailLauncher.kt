@@ -45,9 +45,9 @@ class TailLauncher {
                 println("java -jar tail.jar [-c num|-n num] [-o ofile] file0 file1 file2")
                 return
             }
-            c != null && c!! > 0 -> Tail(InputOption.LastSymbols, c!!)
-            n != null && n!! > 0 -> Tail(InputOption.LastLines, n!!)
-            c == null && n == null -> Tail(InputOption.LastLines, 10)
+            c != null && c!! > 0 -> Tail(InputOption.SYMBOLS, c!!)
+            n != null && n!! > 0 -> Tail(InputOption.LINES, n!!)
+            c == null && n == null -> Tail(InputOption.LINES, 10)
             else -> {
                 println("Illegal argument")
                 println("java -jar tail.jar [-c num|-n num] [-o ofile] file0 file1 file2")

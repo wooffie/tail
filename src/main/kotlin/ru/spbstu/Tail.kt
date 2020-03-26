@@ -6,38 +6,38 @@ import java.io.BufferedWriter
 
 class Tail(
     private val inputOption: InputOption,
-    private val amount: Int
+    private val length: Int
 ) {
 
     fun takeTail(reader: BufferedReader, writer: BufferedWriter) {
-        if (inputOption == InputOption.LastSymbols) {
-            readLastSymbols(reader, writer)
+        if (inputOption == InputOption.SYMBOLS) {
+            tailSymbols(reader, writer)
         } else {
-            readLastLines(reader, writer)
+            tailLines(reader, writer)
         }
     }
 
-    private fun readLastLines(reader: BufferedReader, writer: BufferedWriter) {
-        val list = mutableListOf<String>()
+    private fun tailLines(reader: BufferedReader, writer: BufferedWriter) {
+        val lines = mutableListOf<String>()
         while (reader.ready()) {
-            if (list.size == amount) {
-                list.removeAt(0)
+            if (lines.size == length) {
+                lines.removeAt(0)
             }
-            list.add(reader.readLine())
+            lines.add(reader.readLine())
         }
-        writer.write(list.joinToString("\n"))
+        writer.write(lines.joinToString("\n"))
         writer.newLine()
     }
 
-    private fun readLastSymbols(reader: BufferedReader, writer: BufferedWriter) {
-        val list = mutableListOf<Char>()
+    private fun tailSymbols(reader: BufferedReader, writer: BufferedWriter) {
+        val symbols = mutableListOf<Char>()
         while (reader.ready()) {
-            if (list.size == amount) {
-                list.removeAt(0)
+            if (symbols.size == length) {
+                symbols.removeAt(0)
             }
-            list.add(reader.read().toChar())
+            symbols.add(reader.read().toChar())
         }
-        writer.write(list.joinToString(""))
+        writer.write(symbols.joinToString(""))
         writer.newLine()
     }
 }
