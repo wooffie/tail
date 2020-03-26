@@ -40,6 +40,11 @@ class TailLauncher {
         }
 
         val tail = when {
+            c != null && n != null -> {
+                println("Illegal argument")
+                println("java -jar tail.jar [-c num|-n num] [-o ofile] file0 file1 file2")
+                return
+            }
             c != null && c!! > 0 -> Tail(InputOption.LastSymbols, c!!)
             n != null && n!! > 0 -> Tail(InputOption.LastLines, n!!)
             c == null && n == null -> Tail(InputOption.LastLines, 10)
