@@ -4,8 +4,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.*
 
-//junit ru.spbstu.TailTest
-
 class TailTest {
 
     @Test

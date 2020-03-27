@@ -38,8 +38,6 @@ class TailLauncher {
             parser.printUsage(System.out)
             return
         }
-
-
         // проверка входных данных и создание экземпляра класса Tail
         val tail = when {
             c != null && n != null -> {
@@ -56,8 +54,6 @@ class TailLauncher {
                 return
             }
         }
-
-
         try {
             // определение выходного потока:
             val writer = if (outputFileName == "") {
@@ -65,7 +61,6 @@ class TailLauncher {
             } else {
                 BufferedWriter(OutputStreamWriter(FileOutputStream(outputFileName)))
             }
-
             // определение выходных потоков и выделение конца
             if (inputFilesNames.isEmpty()) {
                 val reader = BufferedReader(InputStreamReader(System.`in`))
