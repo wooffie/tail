@@ -37,10 +37,10 @@ class TailTest {
         System.setOut(PrintStream(outContent))
         TailLauncher().launch(arrayOf("-c", "10", "src\\test\\resources\\text.txt", "src\\test\\resources\\text2.txt"))
         assertEquals(
-            "src\\test\\resources\\text.txt\r\n" +
+            "src\\test\\resources\\text.txt:\r\n" +
                     "the child.\r\n" +
                     "\r\n" +
-                    "src\\test\\resources\\text2.txt\r\n" +
+                    "src\\test\\resources\\text2.txt:\r\n" +
                     "ight(Node)\r\n" +
                     "\r\n", outContent.toString()
         )

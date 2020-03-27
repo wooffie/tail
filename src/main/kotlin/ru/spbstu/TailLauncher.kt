@@ -68,15 +68,16 @@ class TailLauncher {
 
             // определение выходных потоков и выделение конца
             if (inputFilesNames.isEmpty()) {
+                val reader = BufferedReader(InputStreamReader(System.`in`))
                 // TODO() ввод в System.'in'
-                tail.takeTail(BufferedReader(InputStreamReader(System.`in`)), writer)
+                tail.takeTail(reader, writer)
             }
-            for (file in inputFilesNames) {
+            for (fileName in inputFilesNames) {
                 if (inputFilesNames.size > 1) {
-                    writer.write(file)
+                    writer.write("$fileName:")
                     writer.newLine()
                 }
-                tail.takeTail(BufferedReader(InputStreamReader(FileInputStream(file))), writer)
+                tail.takeTail(BufferedReader(InputStreamReader(FileInputStream(fileName))), writer)
                 writer.newLine()
             }
             writer.close()
