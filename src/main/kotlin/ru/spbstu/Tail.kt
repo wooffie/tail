@@ -4,11 +4,16 @@ package ru.spbstu
 import java.io.BufferedReader
 import java.io.BufferedWriter
 
+/**
+ * Класс утилиты, хранит в себе что и сколько мы считываем.
+ */
 class Tail(
     private val inputOption: InputOption,
     private val length: Int
 ) {
-
+    /**
+     *  Функция запуска утилиты для передаваемого входного и выходного потоков.
+     */
     fun takeTail(reader: BufferedReader, writer: BufferedWriter) {
         if (inputOption == InputOption.SYMBOLS) {
             tailSymbols(reader, writer)
@@ -17,6 +22,9 @@ class Tail(
         }
     }
 
+    /**
+     * Выделение из файла последних строк.
+     */
     private fun tailLines(reader: BufferedReader, writer: BufferedWriter) {
         val lines = mutableListOf<String>()
         while (reader.ready()) {
@@ -29,6 +37,9 @@ class Tail(
         writer.newLine()
     }
 
+    /**
+     * Выделение последних символов.
+     */
     private fun tailSymbols(reader: BufferedReader, writer: BufferedWriter) {
         val symbols = mutableListOf<Char>()
         while (reader.ready()) {
