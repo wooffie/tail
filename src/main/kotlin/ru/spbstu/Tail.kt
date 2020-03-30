@@ -3,6 +3,7 @@ package ru.spbstu
 
 import java.io.BufferedReader
 import java.io.BufferedWriter
+import java.util.*
 
 /**
  * Класс утилиты, хранит в себе что и сколько мы считываем.
@@ -26,30 +27,34 @@ class Tail(
      * Выделение из файла последних строк.
      */
     private fun tailLines(reader: BufferedReader, writer: BufferedWriter) {
-        val lines = mutableListOf<String>()
-        while (reader.ready()) {
+        val lines = ArrayDeque<String>()
+        var lastLine = reader.readLine()
+        while (lastLine != null) {
             if (lines.size == length) {
-                lines.removeAt(0)
+                lines.pollFirst()
             }
-            lines.add(reader.readLine())
+            lines.add(lastLine)
+            lastLine = reader.readLine()
         }
         writer.write(lines.joinToString("\n"))
         writer.newLine()
     }
 
+    // dropWhile is slow
     /**
      * Выделение последних символов.
      */
     private fun tailSymbols(reader: BufferedReader, writer: BufferedWriter) {
-        val symbols = mutableListOf<Char>()
-        while (reader.ready()) {
+        val symbols = ArrayDeque<Char>()
+        var char = reader.read()
+        while (char != -1) {
             if (symbols.size == length) {
-                symbols.removeAt(0)
+                symbols.pollFirst()
             }
-            symbols.add(reader.read().toChar())
+            symbols.add(char.toChar())
+            char = reader.read()
         }
         writer.write(symbols.joinToString(""))
         writer.newLine()
     }
 }
-
