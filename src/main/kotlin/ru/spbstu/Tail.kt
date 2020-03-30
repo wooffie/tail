@@ -6,14 +6,18 @@ import java.io.BufferedWriter
 import java.util.*
 
 /**
- * Класс утилиты, хранит в себе что и сколько мы считываем.
+ * Tail class with records the last piece of file.
+ * @param inputOption read last LINES or SYMBOLS
+ * @param length size of cut
  */
 class Tail(
     private val inputOption: InputOption,
     private val length: Int
 ) {
     /**
-     *  Функция запуска утилиты для передаваемого входного и выходного потоков.
+     *  Function to cut ending of file
+     *  @param reader - buffered reader of input stream
+     *  @param writer - buffered writer of output stream
      */
     fun takeTail(reader: BufferedReader, writer: BufferedWriter) {
         if (inputOption == InputOption.SYMBOLS) {
@@ -24,7 +28,9 @@ class Tail(
     }
 
     /**
-     * Выделение из файла последних строк.
+     * Cut last lines
+     * @param reader - buffered reader of input stream
+     * @param writer - buffered writer of output stream
      */
     private fun tailLines(reader: BufferedReader, writer: BufferedWriter) {
         val lines = ArrayDeque<String>()
@@ -40,9 +46,10 @@ class Tail(
         writer.newLine()
     }
 
-    // dropWhile is slow
     /**
-     * Выделение последних символов.
+     * Cut last symbols
+     * @param reader - buffered reader of input stream
+     * @param writer - buffered writer of output stream
      */
     private fun tailSymbols(reader: BufferedReader, writer: BufferedWriter) {
         val symbols = ArrayDeque<Char>()

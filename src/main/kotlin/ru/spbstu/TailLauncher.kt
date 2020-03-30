@@ -6,13 +6,16 @@ import org.kohsuke.args4j.CmdLineParser
 import org.kohsuke.args4j.Option
 import java.io.*
 
-
+/**
+ * Main class
+ * @param args
+ */
 fun main(args: Array<String>) {
     TailLauncher().launch(args)
 }
 
 /**
- * Класс который обрабатывает аргументы и запускает утилиту
+ * Launcher class
  */
 class TailLauncher {
     @Option(name = "-c", metaVar = "LastSymbols", required = false, usage = "Take last *num* symbols")
@@ -27,7 +30,10 @@ class TailLauncher {
     @Argument(required = false, metaVar = "InputFiles", usage = "Input files names")
     private var inputFilesNames = mutableListOf<String>()
 
-
+    /**
+     * Main function of class. Do tail according with input data.
+     * @param args input data
+     */
     fun launch(args: Array<String>) {
         val parser = CmdLineParser(this)
         try {
@@ -53,7 +59,6 @@ class TailLauncher {
                 return
             }
         }
-
         try {
             val writer = if (outputFileName == "") {
                 BufferedWriter(OutputStreamWriter(System.out))

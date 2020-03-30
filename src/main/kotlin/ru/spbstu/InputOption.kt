@@ -1,8 +1,15 @@
 package ru.spbstu
 
 /**
- * Перечисление для определения типа выходных данных.
+ * Options that can be used
  */
 enum class InputOption {
-    LINES, SYMBOLS
+    /**
+     * Last lines
+     */
+    LINES,
+    /**
+     * Last symbols
+     */
+    SYMBOLS
 }
