@@ -7,7 +7,7 @@ import org.kohsuke.args4j.Option
 import java.io.*
 
 /**
- * Main class
+ * Main method
  * @param args
  */
 fun main(args: Array<String>) {

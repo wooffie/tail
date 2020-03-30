@@ -4,8 +4,14 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.*
 
+/**
+ * Test class
+ */
 class TailTest {
 
+    /**
+     * Test for tailing last lines
+     */
     @Test
     fun lastLines() {
         val reader = BufferedReader(InputStreamReader(FileInputStream(File("src\\test\\resources\\text.txt"))))
@@ -17,7 +23,9 @@ class TailTest {
         file.deleteOnExit()
     }
 
-
+    /**
+     * Test for tailing last symbols
+     */
     @Test
     fun lastSymbols() {
         val reader = BufferedReader(InputStreamReader(FileInputStream(File("src\\test\\resources\\text.txt"))))
@@ -29,6 +37,9 @@ class TailTest {
         file.deleteOnExit()
     }
 
+    /**
+     * Test for output if we have several files
+     */
     @Test
     fun severalFiles() {
         val outContent = ByteArrayOutputStream()
@@ -44,6 +55,9 @@ class TailTest {
         )
     }
 
+    /**
+     * Test for reading data from console
+     */
     @Test
     fun readFromCmd() {
         System.setIn(ByteArrayInputStream("There are several lines of evidence for the persistence of HCBD in the environment.".toByteArray()))
