@@ -19,11 +19,11 @@ class Tail(
      *  @param reader - buffered reader of input stream
      *  @param writer - buffered writer of output stream
      */
-    fun takeTail(reader: BufferedReader, writer: BufferedWriter) {
+    fun get(reader: BufferedReader, writer: BufferedWriter) {
         if (inputOption == InputOption.SYMBOLS) {
-            tailSymbols(reader, writer)
+            lastSymbols(reader, writer)
         } else {
-            tailLines(reader, writer)
+            lastLines(reader, writer)
         }
     }
 
@@ -32,17 +32,17 @@ class Tail(
      * @param reader - buffered reader of input stream
      * @param writer - buffered writer of output stream
      */
-    private fun tailLines(reader: BufferedReader, writer: BufferedWriter) {
-        val lines = ArrayDeque<String>()
+    private fun lastLines(reader: BufferedReader, writer: BufferedWriter) {
+        val linesToWrite = ArrayDeque<String>()
         var lastLine = reader.readLine()
         while (lastLine != null) {
-            if (lines.size == length) {
-                lines.pollFirst()
+            if (linesToWrite.size == length) {
+                linesToWrite.pollFirst()
             }
-            lines.add(lastLine)
+            linesToWrite.add(lastLine)
             lastLine = reader.readLine()
         }
-        writer.write(lines.joinToString("\n"))
+        writer.write(linesToWrite.joinToString("\n"))
         writer.newLine()
     }
 
@@ -51,17 +51,17 @@ class Tail(
      * @param reader - buffered reader of input stream
      * @param writer - buffered writer of output stream
      */
-    private fun tailSymbols(reader: BufferedReader, writer: BufferedWriter) {
-        val symbols = ArrayDeque<Char>()
+    private fun lastSymbols(reader: BufferedReader, writer: BufferedWriter) {
+        val symbolsToWrite = ArrayDeque<Char>()
         var char = reader.read()
         while (char != -1) {
-            if (symbols.size == length) {
-                symbols.pollFirst()
+            if (symbolsToWrite.size == length) {
+                symbolsToWrite.pollFirst()
             }
-            symbols.add(char.toChar())
+            symbolsToWrite.add(char.toChar())
             char = reader.read()
         }
-        writer.write(symbols.joinToString(""))
+        writer.write(symbolsToWrite.joinToString(""))
         writer.newLine()
     }
 }

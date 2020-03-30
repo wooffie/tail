@@ -68,14 +68,14 @@ class TailLauncher {
 
             if (inputFilesNames.isEmpty()) {
                 val reader = BufferedReader(InputStreamReader(System.`in`))
-                tail.takeTail(reader, writer)
+                tail.get(reader, writer)
             }
             for (fileName in inputFilesNames) {
                 if (inputFilesNames.size > 1) {
                     writer.write("$fileName:")
                     writer.newLine()
                 }
-                tail.takeTail(BufferedReader(InputStreamReader(FileInputStream(fileName))), writer)
+                tail.get(BufferedReader(InputStreamReader(FileInputStream(fileName))), writer)
                 writer.newLine()
             }
             writer.close()
