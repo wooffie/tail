@@ -8,7 +8,7 @@ import java.io.*
 
 /**
  * Main method
- * @param args
+ * @param args - command line's arguments
  */
 fun main(args: Array<String>) {
     TailLauncher().launch(args)
@@ -19,10 +19,10 @@ fun main(args: Array<String>) {
  */
 class TailLauncher {
     @Option(name = "-c", metaVar = "LastSymbols", required = false, usage = "Take last *num* symbols")
-    private var c: Int? = null
+    private var c = -1
 
     @Option(name = "-n", metaVar = "LastLine", required = false, usage = "Take last *num* lines")
-    private var n: Int? = null
+    private var n = -1
 
     @Option(name = "-o", metaVar = "OutputName", required = false, usage = "Output file name")
     private var outputFileName = ""
@@ -46,14 +46,14 @@ class TailLauncher {
         }
 
         val tail = when {
-            c != null && n != null -> {
+            c != -1 && n != -1 -> {
                 println("Choose only one option")
                 println(parser.printUsage(System.out))
                 return
             }
-            c == null && n == null -> Tail(InputOption.LINES, 10)
-            c != null && c!! > 0 -> Tail(InputOption.SYMBOLS, c!!)
-            n != null && n!! > 0 -> Tail(InputOption.LINES, n!!)
+            c == -1 && n == -1 -> Tail(InputOption.LINES, 10)
+            c > 0 -> Tail(InputOption.SYMBOLS, c)
+            n > 0 -> Tail(InputOption.LINES, n)
             else -> {
                 println("Illegal option's amount")
                 return
