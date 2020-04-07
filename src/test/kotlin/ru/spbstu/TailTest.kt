@@ -33,7 +33,7 @@ class TailTest {
         val writer = BufferedWriter(OutputStreamWriter(FileOutputStream(file)))
         Tail(InputOption.SYMBOLS, 10).get(reader, writer)
         writer.close()
-        assertEquals(File("src\\test\\resources\\text.txt").readText().takeLast(10), file.readText().dropLast(2))
+        assertEquals(File("src\\test\\resources\\text.txt").readText().takeLast(10), file.readText())
         file.deleteOnExit()
     }
 
@@ -48,10 +48,9 @@ class TailTest {
         assertEquals(
             "src\\test\\resources\\text.txt:\r\n" +
                     "the child.\r\n" +
-                    "\r\n" +
                     "src\\test\\resources\\text2.txt:\r\n" +
-                    "ight(Node)\r\n" +
-                    "\r\n", outContent.toString()
+                    "ight(Node)\r\n"
+                    , outContent.toString()
         )
     }
 
@@ -64,6 +63,6 @@ class TailTest {
         val outContent = ByteArrayOutputStream()
         System.setOut(PrintStream(outContent))
         TailLauncher().launch(arrayOf("-c", "10"))
-        assertEquals("vironment.", outContent.toString().dropLast(2))
+        assertEquals("vironment.", outContent.toString())
     }
 }

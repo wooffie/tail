@@ -43,7 +43,6 @@ class Tail(
             lastLine = reader.readLine()
         }
         writer.write(linesToWrite.joinToString("\n"))
-        writer.newLine()
     }
 
     /**
@@ -62,6 +61,5 @@ class Tail(
             char = reader.read()
         }
         writer.write(symbolsToWrite.joinToString(""))
-        writer.newLine()
     }
 }
