@@ -3,7 +3,7 @@ package ru.spbstu
 /**
  * Options that can be used
  */
-enum class InputOption {
+enum class CutOption {
     /**
      * Last lines
      */

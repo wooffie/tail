@@ -7,11 +7,11 @@ import java.util.*
 
 /**
  * Tail class with records the last piece of file.
- * @param inputOption read last LINES or SYMBOLS
+ * @param cutOption read last LINES or SYMBOLS
  * @param length size of cut
  */
 class Tail(
-    private val inputOption: InputOption,
+    private val cutOption: CutOption,
     private val length: Int
 ) {
     /**
@@ -20,7 +20,7 @@ class Tail(
      *  @param writer - buffered writer of output stream
      */
     fun get(reader: BufferedReader, writer: BufferedWriter) {
-        if (inputOption == InputOption.SYMBOLS) {
+        if (cutOption == CutOption.SYMBOLS) {
             lastSymbols(reader, writer)
         } else {
             lastLines(reader, writer)

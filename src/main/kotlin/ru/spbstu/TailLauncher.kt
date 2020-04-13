@@ -32,7 +32,7 @@ class TailLauncher {
 
     /**
      * Main function of class. Do tail according with input data.
-     * @param args input data
+     * @param args - command line's arguments
      */
     fun launch(args: Array<String>) {
         val parser = CmdLineParser(this)
@@ -51,9 +51,9 @@ class TailLauncher {
                 println(parser.printUsage(System.out))
                 return
             }
-            c == null && n == null -> Tail(InputOption.LINES, 10)
-            c != null && c!! > 0 -> Tail(InputOption.SYMBOLS, c!!)
-            n != null && n!! > 0 -> Tail(InputOption.LINES, n!!)
+            c == null && n == null -> Tail(CutOption.LINES, 10)
+            c != null && c!! > 0 -> Tail(CutOption.SYMBOLS, c!!)
+            n != null && n!! > 0 -> Tail(CutOption.LINES, n!!)
             else -> {
                 println("Illegal option's amount")
                 return
